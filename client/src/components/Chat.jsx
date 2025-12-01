@@ -7,10 +7,12 @@ function Chat({ socket, nickname }) {
 
   useEffect(() => {
     socket.on('chat_message', (msg) => {
-      setMessages(prev => [...prev, msg].slice(-20)); // Keep last 20
+      setMessages((prev) => [...prev, msg]);
     });
 
-    return () => socket.off('chat_message');
+    return () => {
+      socket.off('chat_message');
+    };
   }, [socket]);
 
   useEffect(() => {
@@ -27,49 +29,76 @@ function Chat({ socket, nickname }) {
 
   return (
     <div style={{
-      position: 'absolute',
-      bottom: '20px',
-      left: '20px',
-      right: '20px',
-      height: '200px',
+      position: 'fixed',
+      bottom: '0',
+      left: '0',
+      width: '100%',
+      height: '300px', // Reduced height slightly as it's full width now
       display: 'flex',
       flexDirection: 'column',
-      pointerEvents: 'none' // Allow clicking through to background
+      // No background color, transparent container
+      zIndex: 1000 // Ensure it's on top
     }}>
       <div style={{
         flex: 1,
-        overflowY: 'auto',
+        overflowY: 'auto', // Keep scrolling
+        padding: '10px 20px', // More horizontal padding
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        gap: '10px',
-        paddingBottom: '10px'
+        gap: '8px',
       }}>
         {messages.map((msg) => (
           <div key={msg.id} style={{
             alignSelf: msg.nickname === nickname ? 'flex-end' : 'flex-start',
-            backgroundColor: msg.isNpc ? '#4a4a4a' : 'rgba(0,0,0,0.6)',
+            backgroundColor: msg.isNpc ? 'rgba(0,0,0,0.6)' : (msg.nickname === nickname ? '#444' : 'rgba(0,0,0,0.6)'), // Grayscale
             padding: '8px 12px',
-            borderRadius: '12px',
-            maxWidth: '70%',
-            pointerEvents: 'auto'
+            borderRadius: '15px',
+            maxWidth: '60%', // Reduced max-width for full screen readability
+            fontSize: '0.9rem',
+            color: msg.nickname === '찌라시' ? 'rgba(255, 255, 255, 0.8)' : '#fff', // Jjirasi: Softer white
+            border: 'none' // No borders
           }}>
-            <span style={{ fontWeight: 'bold', marginRight: '5px', color: '#aaa' }}>
-              {msg.nickname}:
-            </span>
+            <div style={{ 
+              fontSize: '0.7rem', 
+              color: msg.nickname === '찌라시' ? '#fffacd' : '#ccc', // Jjirasi: Light yellow name
+              marginBottom: '2px' 
+            }}>
+              {msg.nickname}{msg.department ? ` (${msg.department})` : ''}
+            </div>
             {msg.text}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <form onSubmit={sendMessage} style={{ pointerEvents: 'auto', display: 'flex', gap: '10px' }}>
-        <input 
-          type="text" 
+      <form onSubmit={sendMessage} style={{
+        padding: '10px 20px',
+        display: 'flex',
+        backgroundColor: 'rgba(0,0,0,0.3)' // Slight background for input area visibility
+      }}>
+        <input
+          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="메시지 입력..."
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            padding: '10px',
+            borderRadius: '4px',
+            border: 'none',
+            marginRight: '10px',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent input
+            color: '#fff'
+          }}
         />
+        <button type="submit" style={{
+          padding: '10px 20px',
+          borderRadius: '4px',
+          border: 'none',
+          backgroundColor: '#555', // Grayscale button
+          color: '#fff',
+          cursor: 'pointer',
+          fontWeight: 'bold'
+        }}>전송</button>
       </form>
     </div>
   );

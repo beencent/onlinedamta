@@ -34,6 +34,7 @@ function SmokingRoom({ socket, nickname, stats, userCount }) {
       }}>
         <div>
           <h2>온라인 담타</h2>
+          <p style={{ fontWeight: 'bold', color: '#ff6b6b' }}>총 방문자: {stats.totalVisitors}명</p>
           <p>오늘 태운 담배: {stats.totalSmoked}개비</p>
           <p>현재 흡연자: {stats.currentSmokers}명</p>
           <p>접속자: {userCount}명</p>
@@ -47,8 +48,9 @@ function SmokingRoom({ socket, nickname, stats, userCount }) {
         flex: 1,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative'
+        alignItems: 'center', // Centered vertically, but we can adjust margin to move it up
+        position: 'relative',
+        paddingBottom: '200px' // Increased padding to move cigarette higher
       }}>
         {isSmoking ? (
           <Cigarette onFinish={finishSmoking} />
