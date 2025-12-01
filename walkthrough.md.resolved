@@ -1,0 +1,32 @@
+# Online Damta - Walkthrough
+
+## Setup & Run
+The application is currently running locally.
+- **Frontend**: [http://localhost:5174](http://localhost:5174)
+- **Backend**: [http://localhost:3002](http://localhost:3002)
+
+## Verification Steps
+
+### 1. Login
+- Open [http://localhost:5174](http://localhost:5174) in your browser.
+- Enter a nickname (e.g., "김대리") and click "입장하기".
+
+### 2. Smoking Room
+- You should see the "현재 흡연자" count increase.
+- Click **"불 붙이기"** to start smoking.
+- The cigarette will burn slowly (5 minutes duration by default).
+
+### 3. Interactions
+- **Fast Burn**: Click the **orange filter** part of the cigarette. You should see the burn rate increase temporarily.
+- **Ash Tray**: As the cigarette burns, ash will accumulate. Click the **ash (glowing tip)** to shake it off.
+- **Chat**: Type a message in the bottom input and press Enter. The message should float up on the screen.
+
+### 4. Multi-user & NPC
+- Open a second tab (incognito window recommended) and login with a different name.
+- Verify that chat messages appear on both screens.
+- Verify that "현재 흡연자" count is 2.
+- Wait for 10-15 seconds without typing. An NPC (e.g., 오과장) should automatically send a message.
+
+### 5. Completion
+- When the cigarette finishes burning, the "오늘 태운 담배" count will increase.
+- You can click "새 담배 꺼내기" to restart.
